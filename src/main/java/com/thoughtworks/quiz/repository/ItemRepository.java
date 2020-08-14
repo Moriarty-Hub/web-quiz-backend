@@ -10,4 +10,6 @@ public interface ItemRepository extends CrudRepository<ItemDto, Integer> {
 
     @Override
     List<ItemDto> findAll();
+
+    Optional<ItemDto> findItemDtoByName(String name);
 }

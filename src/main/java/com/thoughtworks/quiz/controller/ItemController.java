@@ -5,6 +5,8 @@ import com.thoughtworks.quiz.service.ItemService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import java.util.List;
 
@@ -20,5 +22,12 @@ public class ItemController {
     @GetMapping("/get-item-list")
     public ResponseEntity<List<Item>> getItemList() {
         return ResponseEntity.ok().body(itemService.getItemList());
+    }
+
+    @PostMapping("/add-new-item")
+    public ResponseEntity<ResponseEntity.BodyBuilder> addNewItem(@RequestParam String name, @RequestParam Integer price,
+                                                                 @RequestParam String picture, @RequestParam String unit) {
+        itemService.addNewItem(name, price, picture, unit);
+        return ResponseEntity.ok().build();
     }
 }
