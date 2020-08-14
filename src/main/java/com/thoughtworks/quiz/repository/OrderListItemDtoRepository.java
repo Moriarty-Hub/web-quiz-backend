@@ -24,4 +24,7 @@ public interface OrderListItemDtoRepository extends CrudRepository<OrderListItem
     void updateQuantityById(@Param("id") Integer id, @Param("quantity") Integer quantity);
 
     Optional<OrderListItemDto> findOrderListItemDtoByItemName(String itemName);
+
+    @Override
+    void deleteById(Integer integer);
 }

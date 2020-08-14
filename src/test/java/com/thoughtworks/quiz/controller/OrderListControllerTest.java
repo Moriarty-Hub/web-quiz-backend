@@ -14,8 +14,7 @@ import org.springframework.test.web.servlet.MockMvc;
 
 import static org.hamcrest.Matchers.hasSize;
 import static org.hamcrest.Matchers.is;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
@@ -117,6 +116,33 @@ public class OrderListControllerTest {
                 .andExpect(jsonPath("$[3].itemName", is("火腿肠")))
                 .andExpect(jsonPath("$[3].quantity", is(1)))
                 .andExpect(jsonPath("$[3].unit", is("根")))
+                .andExpect(status().isOk());
+    }
+
+    @Test
+    public void should_delete_item_from_order_list_by_the_given_id() throws Exception {
+        mockMvc.perform(delete("/delete-item").param("id", "1"))
+                .andExpect(status().isOk());
+        mockMvc.perform(get("/get-order-list"))
+                .andExpect(jsonPath("$", hasSize(2)))
+                .andExpect(jsonPath("$[0].id", is(2)))
+                .andExpect(jsonPath("$[0].itemName", is("雪碧")))
+                .andExpect(jsonPath("$[0].quantity", is(3)))
+                .andExpect(jsonPath("$[0].unit", is("瓶")))
+                .andExpect(jsonPath("$[1].id", is(3)))
+                .andExpect(jsonPath("$[1].itemName", is("方便面")))
+                .andExpect(jsonPath("$[1].quantity", is(1)))
+                .andExpect(jsonPath("$[1].unit", is("桶")))
+                .andExpect(status().isOk());
+
+        mockMvc.perform(delete("/delete-item").param("id", "3"))
+                .andExpect(status().isOk());
+        mockMvc.perform(get("/get-order-list"))
+                .andExpect(jsonPath("$", hasSize(1)))
+                .andExpect(jsonPath("$[0].id", is(2)))
+                .andExpect(jsonPath("$[0].itemName", is("雪碧")))
+                .andExpect(jsonPath("$[0].quantity", is(3)))
+                .andExpect(jsonPath("$[0].unit", is("瓶")))
                 .andExpect(status().isOk());
     }
 }

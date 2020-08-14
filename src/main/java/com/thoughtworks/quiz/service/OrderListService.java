@@ -48,4 +48,8 @@ public class OrderListService {
             orderListItemDtoRepository.save(orderListItemDto);
         }
     }
+
+    public void deleteItemFromOrderList(int id) {
+        orderListItemDtoRepository.deleteById(id);
+    }
 }
