@@ -5,6 +5,8 @@ import com.thoughtworks.quiz.service.OrderListService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import java.util.List;
 
@@ -20,5 +22,11 @@ public class OrderListController {
     @GetMapping("/get-order-list")
     public ResponseEntity<List<OrderListItem>> getOrderList() {
         return ResponseEntity.ok().body(orderListService.getOrderList());
+    }
+
+    @PostMapping("/add-item-into-order-list")
+    public ResponseEntity<ResponseEntity.BodyBuilder> addItemIntoOrderList(@RequestParam int id) {
+        orderListService.addNewItemIntoOrderList(id);
+        return ResponseEntity.ok().build();
     }
 }
