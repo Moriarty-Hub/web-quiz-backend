@@ -11,14 +11,16 @@ public class ItemDto {
     private String name;
     private Integer price;
     private String picture;
+    private String unit;
 
     public ItemDto() {
     }
 
-    public ItemDto(String name, Integer price, String picture) {
+    public ItemDto(String name, Integer price, String picture, String unit) {
         this.name = name;
         this.price = price;
         this.picture = picture;
+        this.unit = unit;
     }
 
     public Integer getId() {
@@ -47,5 +49,13 @@ public class ItemDto {
 
     public void setPicture(String picture) {
         this.picture = picture;
+    }
+
+    public String getUnit() {
+        return unit;
+    }
+
+    public void setUnit(String unit) {
+        this.unit = unit;
     }
 }

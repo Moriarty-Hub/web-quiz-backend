@@ -1,8 +1,7 @@
 package com.thoughtworks.quiz.controller;
 
-import com.thoughtworks.quiz.dto.ItemDto;
-import com.thoughtworks.quiz.repository.ItemRepository;
-import org.junit.jupiter.api.AfterEach;
+import com.thoughtworks.quiz.dto.OrderListItemDto;
+import com.thoughtworks.quiz.repository.OrderListItemDtoRepository;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,49 +19,41 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @SpringBootTest
 @AutoConfigureMockMvc
 @DirtiesContext(classMode = DirtiesContext.ClassMode.AFTER_EACH_TEST_METHOD)
-class ItemControllerTest {
+public class OrderListControllerTest {
 
     @Autowired
     private MockMvc mockMvc;
 
     @Autowired
-    private ItemRepository itemRepository;
+    private OrderListItemDtoRepository orderListItemDtoRepository;
 
     @BeforeEach
     public void setUp() {
-        ItemDto itemTestData1 = new ItemDto("可乐", 3, "url1", "瓶");
-        ItemDto itemTestData2 = new ItemDto("雪碧", 5, "url2", "瓶");
-        ItemDto itemTestData3 = new ItemDto("方便面", 7, "url3", "桶");
-        itemRepository.save(itemTestData1);
-        itemRepository.save(itemTestData2);
-        itemRepository.save(itemTestData3);
+        OrderListItemDto orderListItemTestData1 = new OrderListItemDto("可乐", 2, "瓶");
+        OrderListItemDto orderListItemTestData2 = new OrderListItemDto("雪碧", 3, "瓶");
+        OrderListItemDto orderListItemTestData3 = new OrderListItemDto("方便面", 1, "桶");
+        orderListItemDtoRepository.save(orderListItemTestData1);
+        orderListItemDtoRepository.save(orderListItemTestData2);
+        orderListItemDtoRepository.save(orderListItemTestData3);
     }
 
-    @AfterEach
-    public void tearDown() {
-        itemRepository.deleteAll();
-    }
 
     @Test
-    public void should_return_entire_item_list() throws Exception {
-        mockMvc.perform(get("/get-item-list"))
+    public void should_return_entire_order_list() throws Exception {
+        mockMvc.perform(get("/get-order-list"))
                 .andExpect(jsonPath("$", hasSize(3)))
                 .andExpect(jsonPath("$[0].id", is(1)))
-                .andExpect(jsonPath("$[0].name", is("可乐")))
-                .andExpect(jsonPath("$[0].price", is(3)))
-                .andExpect(jsonPath("$[0].picture", is("url1")))
+                .andExpect(jsonPath("$[0].itemName", is("可乐")))
+                .andExpect(jsonPath("$[0].quantity", is(2)))
                 .andExpect(jsonPath("$[0].unit", is("瓶")))
                 .andExpect(jsonPath("$[1].id", is(2)))
-                .andExpect(jsonPath("$[1].name", is("雪碧")))
-                .andExpect(jsonPath("$[1].price", is(5)))
-                .andExpect(jsonPath("$[1].picture", is("url2")))
+                .andExpect(jsonPath("$[1].itemName", is("雪碧")))
+                .andExpect(jsonPath("$[1].quantity", is(3)))
                 .andExpect(jsonPath("$[1].unit", is("瓶")))
                 .andExpect(jsonPath("$[2].id", is(3)))
-                .andExpect(jsonPath("$[2].name", is("方便面")))
-                .andExpect(jsonPath("$[2].price", is(7)))
-                .andExpect(jsonPath("$[2].picture", is("url3")))
+                .andExpect(jsonPath("$[2].itemName", is("方便面")))
+                .andExpect(jsonPath("$[2].quantity", is(1)))
                 .andExpect(jsonPath("$[2].unit", is("桶")))
                 .andExpect(status().isOk());
     }
-
 }

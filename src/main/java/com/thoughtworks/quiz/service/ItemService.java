@@ -18,6 +18,6 @@ public class ItemService {
 
     public List<Item> getItemList() {
         return itemRepository.findAll().stream().map(itemDto ->
-                new Item(itemDto.getName(), itemDto.getPrice(), itemDto.getPicture())).collect(Collectors.toList());
+                new Item(itemDto.getId(), itemDto.getName(), itemDto.getPrice(), itemDto.getPicture(), itemDto.getUnit())).collect(Collectors.toList());
     }
 }
